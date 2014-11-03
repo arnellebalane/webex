@@ -18,6 +18,9 @@ function update_battery(e) {
     if (battery.charging) {
         $('main').classList.add('charging');
         $('.state').textContent = battery.level ===1 ? 'battery full' : 'charging';
+        if (battery.level >= 0.2) {
+            $('main').classList.remove('almost-empty');
+        }
     } else {
         $('main').classList.remove('charging');
         $('.state').textContent = 'not charging';
