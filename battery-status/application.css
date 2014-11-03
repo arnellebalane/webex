@@ -1,0 +1,116 @@
+*,
+*:before,
+*:after {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+main {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -115px 0 0 -75px;
+}
+
+.battery {
+    position: relative;
+    width: 150px;
+    height: 230px;
+    background-color: #333333;
+    border-radius: 2px;
+}
+
+.battery:before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 45px;
+    width: 60px;
+    height: 20px;
+    background-color: #333333;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.battery-content {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    background-color: #ffffff;
+    border: 4px solid #ffffff;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.battery-level {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #00aa00;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.battery p {
+    position: absolute;
+    bottom: 90px;
+    width: 100%;
+    font: normal 4rem/1 "Ubuntu Mono";
+    text-align: center;
+}
+
+.battery-content > p {
+    color: #333333;
+}
+
+.battery-level > p {
+    color: #ffffff;
+}
+
+.status {
+    margin-top: 8px;
+}
+
+.status .state {
+    font: bold 1.8rem/1 "Ubuntu Mono";
+    text-align: center;
+    text-transform: uppercase;
+    color: #333333;
+}
+.status p {
+    font: normal 1.4rem/1 "Ubuntu Mono";
+    text-align: center;
+    color: #333333;
+    margin-top: 5px;
+}
+
+.status span {
+    display: block;
+    font-size: 2.4rem;
+}
+
+.charge-time {
+    display: none;
+}
+
+.charging .charge-time {
+    display: block;
+}
+
+.charging .discharge-time {
+    display: none;
+}
+
+.almost-empty .battery-level {
+    background-color: #aa0000;
+}
