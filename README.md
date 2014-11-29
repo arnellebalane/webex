@@ -7,3 +7,5 @@ my experimental applications of the different web api interfaces
 
 - BatteryStatus API
 - Gamepad API
+- Speech Recognition API
+- Speech Synthesis API
