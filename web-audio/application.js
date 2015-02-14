@@ -111,8 +111,16 @@ var player = {
         }
         this.current.pause();
     },
+    toggle: function() {
+        if (this.current.paused) {
+            this.play();
+        } else {
+            this.pause();
+        }
+    },
     stop: function() {
         console.info('Stopping playback.');
+        cache = [];
         this.current.stop();
     },
     prev: function() {
@@ -214,7 +222,7 @@ function render() {
         var slice = slices[i];
         var element = slice.element;
         var offset = slice.offset;
-        var value = Math.abs(source[n]) / NO_SIGNAL;
+        var value = Math.abs(source[n] === undefined ? NO_SIGNAL : source[n]) / NO_SIGNAL;
 
         element.style.transform = 'matrix(1, 0, 0, ' + value + ', ' + offset + ', 0)';
     }
@@ -245,9 +253,22 @@ $player.on('click', '.control[data-action]', function() {
 
 
 $player.on('click', '.container', function() {
-    if (player.current.paused) {
-        player.play();
-    } else {
-        player.pause();
+    player.toggle();
+});
+
+
+$(document).on('keydown', function(e) {
+    if (e.keyCode === 32) {
+        player.toggle();
+    } else if (e.keyCode === 83) {
+        player.stop();
+    } else if (e.keyCode === 37) {
+        player.prev();
+    } else if (e.keyCode === 39) {
+        player.next();
+    } else if (e.keyCode === 80) {
+        $player.find('.playlist-toggle').toggleClass('open');
+        $playlist.toggleClass('open');
+        $player.toggleClass('shrinked');
     }
 });
