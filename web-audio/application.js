@@ -46,7 +46,7 @@ var player = {
             (function(i) {
                 var item = playlist[i];
                 player.load(item.url).then(function(element) {
-                    console.log(item.title + ' loaded.');
+                    console.log('"' + item.title + '" loaded.');
                     item.element = new Sound(element);
                     player.add({ index: i, title: item.title });
                     if (!--count) {
@@ -78,7 +78,7 @@ var player = {
         var $before = $playlist.find('li').filter(function() {
             return +$(this).data('index') < item.index;
         }).last();
-        if ($before.length) {
+        if ($before && $before.length) {
             $before.after($item);
         } else {
             $playlist.append($item);
@@ -95,6 +95,7 @@ var player = {
             }
             this.current = playlist[index].element;
             this.current.play();
+            this.index = index;
 
             $playlist.find('li').removeClass('current');
             $playlist.find('[data-index="' + index + '"]').addClass('current');
@@ -102,7 +103,9 @@ var player = {
     },
     pause: function() {
         console.info('Pausing playback.');
-        cache = data;
+        for (var i = 0; i < data.length; i++) {
+            cache[i] = data[i];
+        }
         this.current.pause();
     },
     stop: function() {
