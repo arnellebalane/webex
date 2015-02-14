@@ -32,6 +32,113 @@ body {
 }
 
 
+.control {
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    background-color: #941242;
+    cursor: pointer;
+    transform: rotateZ(-135deg);
+    transition: transform 200ms cubic-bezier(0.74, 0.06, 0.36, 1.68);
+}
+
+.control:hover {
+    transform: rotateZ(-135deg) scale(1.25);
+}
+
+.control.prev {
+    left: calc(50% - 220px);
+}
+
+.control.prev:before,
+.control.prev:after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid white;
+    border-right: 2px solid white;
+}
+
+.control.prev:before {
+    top: 5px;
+    right: 5px;
+}
+
+.control.prev:after {
+    top: 8px;
+    right: 8px;
+}
+
+.control.next {
+    right: calc(50% - 220px);
+}
+
+.control.next:before,
+.control.next:after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+}
+
+.control.next:before {
+    left: 5px;
+    bottom: 5px;
+}
+
+.control.next:after {
+    left: 8px;
+    bottom: 8px;
+}
+
+.control.stop {
+    right: calc(50% - 260px);
+}
+
+.control.stop:before {
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    transform: rotate(45deg);
+}
+
+.control.playlist-toggle {
+    left: calc(50% - 260px);
+}
+
+.control.playlist-toggle:before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 10px;
+    height: 10px;
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+}
+
+.control.playlist-toggle.open {
+    transform: rotateZ(45deg);
+    transition-property: left, transform;
+    transition-duration: 250ms, 200ms;
+    transition-timing-function: cubic-bezier(0.74, 0.06, 0.36, 1.68);
+}
+
+.playlist-toggle.open:hover {
+    transform: rotateZ(45deg) scale(1.25);
+}
+
+
 .playlist {
     position: absolute;
     top: 0;
@@ -73,39 +180,6 @@ body {
     color: #941242;
     background-color: white;
     padding-left: 30px;
-}
-
-
-.playlist-toggle {
-    position: absolute;
-    top: 50%;
-    left: 50px;
-    z-index: 1;
-    width: 20px;
-    height: 20px;
-    margin-top: -10px;
-    background-color: #941242;
-    cursor: pointer;
-    transform: rotateZ(-135deg);
-    transition-property: left, transform;
-    transition-duration: 250ms;
-    transition-timing-function: cubic-bezier(0.74, 0.06, 0.36, 1.68);
-}
-
-.playlist-toggle:before {
-    content: "";
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    width: 10px;
-    height: 10px;
-    border-left: 2px solid white;
-    border-bottom: 2px solid white;
-}
-
-.playlist-toggle.open {
-    left: 380px;
-    transform: rotateZ(45deg);
 }
 
 
@@ -162,6 +236,11 @@ a:focus {
     width: 300px;
     height: 300px;
     margin: auto;
+}
+
+
+.container {
+    cursor: pointer;
 }
 
 

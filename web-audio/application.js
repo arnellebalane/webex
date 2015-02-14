@@ -28,6 +28,7 @@ var playlist = [
 processor.connect(context.destination);
 analyser.connect(processor);
 var data = new Uint8Array(analyser.frequencyBinCount);
+var cache = [];
 
 
 var $overlay = $('.overlay');
@@ -36,6 +37,7 @@ var $player = $('.player-container');
 
 
 var player = {
+    index: null,
     current: null,
     initialize: function() {
         console.info('Loading audio files...');
@@ -58,7 +60,8 @@ var player = {
     },
     activate: function() {
         $overlay.addClass('removed');
-        player.play(0);
+        player.index = 0;
+        player.play(player.index);
     },
     load: function(url) {
         return new Promise(function(resolve, reject) {
@@ -71,46 +74,80 @@ var player = {
         });
     },
     add: function(item) {
-        item = $('<li data-index="' + item.index + '">' + item.title + '</li>');
-        $playlist.append(item);
+        var $item = $('<li data-index="' + item.index + '">' + item.title + '</li>');
+        var $before = $playlist.find('li').filter(function() {
+            return +$(this).data('index') < item.index;
+        }).last();
+        if ($before.length) {
+            $before.after($item);
+        } else {
+            $playlist.append($item);
+        }
     },
     play: function(index) {
-        console.info('Playing "' + playlist[index].title + '"');
-        if (this.current) {
-            this.current.stop();
-        }
-        this.current = playlist[index].element;
-        this.current.play();
+        if (index === undefined) {
+            console.info('Resuming playback.');
+            this.current.play();
+        } else {
+            console.info('Playing "' + playlist[index].title + '"');
+            if (this.current) {
+                this.current.stop();
+            }
+            this.current = playlist[index].element;
+            this.current.play();
 
-        $playlist.find('li').removeClass('current');
-        $playlist.find('[data-index="' + index + '"]').addClass('current');
+            $playlist.find('li').removeClass('current');
+            $playlist.find('[data-index="' + index + '"]').addClass('current');
+        }
     },
     pause: function() {
+        console.info('Pausing playback.');
+        cache = data;
         this.current.pause();
+    },
+    stop: function() {
+        console.info('Stopping playback.');
+        this.current.stop();
+    },
+    prev: function() {
+        player.index--;
+        if (player.index < 0) {
+            player.index = playlist.length - 1;
+        }
+        player.play(player.index);
+    },
+    next: function() {
+        player.play(++player.index % playlist.length);
     }
 };
 player.initialize();
 
 
 function Sound(element) {
-    var sound = context.createMediaElementSource(element);
+    this.paused = element.paused;
 
+    var sound = context.createMediaElementSource(element);
     sound.connect(analyser);
     sound.connect(context.destination);
+
+    element.onended = player.next;
 
     processor.onaudioprocess = function() {
         analyser.getByteTimeDomainData(data);
     };
 
     this.play = function() {
+        this.paused = false;
         element.play();
     };
 
     this.pause = function() {
+        this.paused = true;
         element.pause();
     };
 
     this.stop = function() {
+        this.paused = true;
         element.currentTime = 0;
         element.pause();
     };
@@ -165,11 +202,13 @@ element.parentNode.replaceChild(container, element);
 function render() {
     requestAnimationFrame(render);
 
+    var source = player.current && player.current.paused ? cache : data;
+
     for (var i = 0, n = 0; i < NUM_OF_SLICES; i++, n += STEP) {
         var slice = slices[i];
         var element = slice.element;
         var offset = slice.offset;
-        var value = Math.abs(data[n]) / NO_SIGNAL;
+        var value = Math.abs(source[n]) / NO_SIGNAL;
 
         element.style.transform = 'matrix(1, 0, 0, ' + value + ', ' + offset + ', 0)';
     }
@@ -191,4 +230,18 @@ $('.playlist-toggle').on('click', function() {
 $playlist.on('click', 'li', function() {
     var index = +$(this).data('index');
     player.play(index);
+});
+
+
+$player.on('click', '.control[data-action]', function() {
+    player[$(this).data('action')]();
+});
+
+
+$player.on('click', '.container', function() {
+    if (player.current.paused) {
+        player.play();
+    } else {
+        player.pause();
+    }
 });
