@@ -41,7 +41,7 @@ function loadAudioElement(url) {
 }
 
 
-loadAudioElement('/audios/lost stars.mp3').then(function(element) {
+loadAudioElement('./audios/lost stars.mp3').then(function(element) {
     audio = Object.create(Sound);
     audio.element = element;
     audio.play();
