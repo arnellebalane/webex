@@ -9,9 +9,10 @@ analyser.connect(processor);
 data = new Uint8Array(analyser.frequencyBinCount);
 
 
-var Sound = {
-    element: undefined,
-    play: function() {
+function Sound() {
+    this.element = undefined;
+
+    this.play = function() {
         var sound = context.createMediaElementSource(this.element);
         this.element.onended = function() {
             sound.disconnect();
@@ -25,8 +26,8 @@ var Sound = {
             analyser.getByteTimeDomainData(data);
         };
         this.element.play();
-    }
-};
+    };
+}
 
 
 function loadAudioElement(url) {
@@ -42,7 +43,7 @@ function loadAudioElement(url) {
 
 
 loadAudioElement('./audios/lost stars.mp3').then(function(element) {
-    audio = Object.create(Sound);
+    audio = new Sound();
     audio.element = element;
     audio.play();
 }, function(element) {

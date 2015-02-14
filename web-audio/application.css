@@ -1,7 +1,5 @@
 *,
-        
 *:before,
-        
 *:after {
     margin: 0;
     padding: 0;
@@ -20,10 +18,46 @@ body {
 }
 
 
+a {
+    position: absolute;
+    left: 50%;
+    bottom: 50px;
+    width: 30px;
+    font: normal 1.4rem/1 "Open Sans", "Helvetica", "Arial", sans-serif;
+    text-indent: 24px;
+    text-decoration: none;
+    text-transform: lowercase;
+    white-space: nowrap;
+    color: #941242;
+    padding: 7px 6px;
+    overflow: hidden;
+    transform: translateX(-50%) scale(0);
+    transition: width 200ms cubic-bezier(0.74, 0.06, 0.36, 1.68);
+    -webkit-animation: grow 250ms 10s cubic-bezier(0.74, 0.06, 0.36, 1.68) forwards;
+}
+
+a:before {
+    content: "❤";
+    position: absolute;
+    top: 0;
+    left: -5px;
+    width: 30px;
+    height: 30px;
+    font: bold 2.4rem "Open Sans", "Helvetica", "Arial", sans-serif;
+    text-align: center;
+    line-height: 30px;
+    color: #941242;
+    margin-left: -15px;
+}
+
+a:hover,
+a:focus {
+    width: 100px;
+}
+
+
 .element,
-        
 .container,
-        
 .clone {
     width: 300px;
     height: 300px;
@@ -37,12 +71,12 @@ body {
 
 
 .element,
-        
 .clone {
     background-color: #941242;
     border-radius: 200px;
 }
 
+.element:before,
 .clone:before {
     content: "❤";
     position: absolute;
@@ -266,4 +300,15 @@ body {
     transform: none;
     top: 0;
     left: 0;
+}
+
+
+@-webkit-keyframes grow {
+    from {
+        transform: translateX(-50%) scale(0);
+    }
+
+    to {
+        transform: translateX(-50%) scale(1);
+    }
 }
