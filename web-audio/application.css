@@ -1,3 +1,13 @@
+@font-face {
+    font-family: "OpenSans";
+    src: url("fontfaces/OpenSans/OpenSans-Regular-webfont.eot");
+    src: url("fontfaces/OpenSans/OpenSans-Regular-webfont.eot?#iefix") format("embedded-opentype"),
+         url("fontfaces/OpenSans/OpenSans-Regular-webfont.woff") format("woff"),
+         url("fontfaces/OpenSans/OpenSans-Regular-webfont.ttf") format("truetype"),
+         url("fontfaces/OpenSans/OpenSans-Regular-webfont.svg#open_sansregular") format("svg");
+}
+
+
 *,
 *:before,
 *:after {
@@ -159,7 +169,7 @@ body {
 
 
 .playlist h3 {
-    font: bold 1.4rem/1 "Open Sans", "Helvetica", "Arial", sans-serif;
+    font: bold 1.4rem/1 "Open Sans", "OpenSans", "Helvetica", "Arial", sans-serif;
     text-transform: uppercase;
     color: #500a24;
     padding: 10px;
@@ -168,7 +178,7 @@ body {
 
 .playlist li {
     display: block;
-    font: normal 1.4rem/1 "Open Sans", "Helvetica", "Arial", sans-serif;
+    font: normal 1.4rem/1 "Open Sans", "OpenSans", "Helvetica", "Arial", sans-serif;
     color: white;
     padding: 10px;
     cursor: pointer;
@@ -188,7 +198,7 @@ a {
     left: 50%;
     bottom: 50px;
     width: 30px;
-    font: normal 1.4rem/1 "Open Sans", "Helvetica", "Arial", sans-serif;
+    font: normal 1.4rem/1 "Open Sans", "OpenSans", "Helvetica", "Arial", sans-serif;
     text-indent: 24px;
     text-decoration: none;
     text-transform: lowercase;
@@ -211,7 +221,7 @@ a:before {
     left: 0;
     width: 30px;
     height: 30px;
-    font: bold 2.4rem "Open Sans", "Helvetica", "Arial", sans-serif;
+    font: bold 2.4rem "Open Sans", "OpenSans", "Helvetica", "Arial", sans-serif;
     text-align: center;
     text-indent: 0;
     line-height: 30px;
@@ -258,7 +268,7 @@ a:focus {
     left: 0;
     right: 0;
     bottom: 0;
-    font: bold 20rem "Open Sans", "Helvetica", "Arial", sans-serif;
+    font: bold 20rem "Open Sans", "OpenSans", "Helvetica", "Arial", sans-serif;
     text-align: center;
     line-height: 300px;
     color: white;
@@ -500,7 +510,7 @@ a:focus {
     left: 0;
     right: 0;
     bottom: 100px;
-    font: normal 2rem/1 "Open Sans", "Helvetica", "Arial", sans-serif;
+    font: normal 2rem/1 "Open Sans", "OpenSans", "Helvetica", "Arial", sans-serif;
     text-transform: lowercase;
     text-align: center;
     color: #941242;
