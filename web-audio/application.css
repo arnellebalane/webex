@@ -37,7 +37,7 @@ a {
 }
 
 a:before {
-    content: "❤";
+    content: "\2764";
     position: absolute;
     top: 0;
     left: -5px;
@@ -78,7 +78,7 @@ a:focus {
 
 .element:before,
 .clone:before {
-    content: "❤";
+    content: "\2764";
     position: absolute;
     top: 0;
     left: 0;
