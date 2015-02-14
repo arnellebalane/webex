@@ -1,65 +1,132 @@
 var context = new AudioContext();
 var processor = context.createScriptProcessor(1024);
 var analyser = context.createAnalyser();
-var data, audio;
+var playlist = [
+    {
+        title: 'A Step You Can\'t Take Back',
+        url: './audios/a step you cant take back.mp3',
+        element: null
+    },
+    {
+        title: 'Coming Up Roses',
+        url: './audios/coming up roses.mp3',
+        element: null
+    },
+    {
+        title: 'Lost Stars',
+        url: './audios/lost stars.mp3',
+        element: null
+    },
+    {
+        title: 'Tell Me If You Wanna Go Home',
+        url: './audios/tell me if you wanna go home.mp3',
+        element: null
+    }
+];
 
 
 processor.connect(context.destination);
 analyser.connect(processor);
-data = new Uint8Array(analyser.frequencyBinCount);
+var data = new Uint8Array(analyser.frequencyBinCount);
 
 
-function Sound() {
-    this.element = undefined;
+var $overlay = $('.overlay');
+var $playlist = $('.playlist');
+var $player = $('.player-container');
+
+
+var player = {
+    current: null,
+    initialize: function() {
+        console.info('Loading audio files...');
+        var count = playlist.length;
+        for (var i = 0; i < playlist.length; i++) {
+            (function(i) {
+                var item = playlist[i];
+                player.load(item.url).then(function(element) {
+                    console.log(item.title + ' loaded.');
+                    item.element = new Sound(element);
+                    player.add({ index: i, title: item.title });
+                    if (!--count) {
+                        player.activate();
+                    }
+                }, function(element) {
+                    throw element.error;
+                });
+            })(i);
+        }
+    },
+    activate: function() {
+        $overlay.addClass('removed');
+        player.play(0);
+    },
+    load: function(url) {
+        return new Promise(function(resolve, reject) {
+            var audio = new Audio();
+            audio.addEventListener('canplay', function() {
+                resolve(audio);
+            });
+            audio.addEventListener('error', reject);
+            audio.src = url;
+        });
+    },
+    add: function(item) {
+        item = $('<li data-index="' + item.index + '">' + item.title + '</li>');
+        $playlist.append(item);
+    },
+    play: function(index) {
+        console.info('Playing "' + playlist[index].title + '"');
+        if (this.current) {
+            this.current.stop();
+        }
+        this.current = playlist[index].element;
+        this.current.play();
+
+        $playlist.find('li').removeClass('current');
+        $playlist.find('[data-index="' + index + '"]').addClass('current');
+    },
+    pause: function() {
+        this.current.pause();
+    }
+};
+player.initialize();
+
+
+function Sound(element) {
+    var sound = context.createMediaElementSource(element);
+
+    sound.connect(analyser);
+    sound.connect(context.destination);
+
+    processor.onaudioprocess = function() {
+        analyser.getByteTimeDomainData(data);
+    };
 
     this.play = function() {
-        var sound = context.createMediaElementSource(this.element);
-        this.element.onended = function() {
-            sound.disconnect();
-            sound = null;
-            processor.onaudioprocess = function() {};
-        };
-        sound.connect(analyser);
-        sound.connect(context.destination);
+        element.play();
+    };
 
-        processor.onaudioprocess = function() {
-            analyser.getByteTimeDomainData(data);
-        };
-        this.element.play();
+    this.pause = function() {
+        element.pause();
+    };
+
+    this.stop = function() {
+        element.currentTime = 0;
+        element.pause();
     };
 }
 
 
-function loadAudioElement(url) {
-    return new Promise(function(resolve, reject) {
-        var audio = new Audio();
-        audio.addEventListener('canplay', function() {
-            resolve(audio);
-        });
-        audio.addEventListener('error', reject);
-        audio.src = url;
-    });
-}
-
-
-loadAudioElement('./audios/lost stars.mp3').then(function(element) {
-    audio = new Sound();
-    audio.element = element;
-    audio.play();
-}, function(element) {
-    throw element.error;
-});
 
 
 
-
-
-// VISUAL COMPONENT
+// VISUALIZER COMPONENT
+// Used vanilla JS for faster performance, maybe.
 var NUM_OF_SLICES = 300;
 var STEP = ~~(data.length / NUM_OF_SLICES);
 var NO_SIGNAL = 128;
 
-var element = document.querySelector('div');
+var element = document.querySelector('.element');
 var slices = [];
 var rect = element.getBoundingClientRect();
 var width = rect.width;
@@ -92,7 +159,7 @@ for (var i = 0; i < NUM_OF_SLICES; i++) {
 
     slices.push({ offset: offset, element: mask });
 }
-document.body.replaceChild(container, element);
+element.parentNode.replaceChild(container, element);
 
 
 function render() {
@@ -108,3 +175,20 @@ function render() {
     }
 }
 render();
+
+
+
+
+
+// INTERFACE INTERACTIONS
+$('.playlist-toggle').on('click', function() {
+    $(this).toggleClass('open');
+    $playlist.toggleClass('open');
+    $player.toggleClass('shrinked');
+});
+
+
+$playlist.on('click', 'li', function() {
+    var index = +$(this).data('index');
+    player.play(index);
+});

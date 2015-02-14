@@ -18,6 +18,97 @@ body {
 }
 
 
+.player-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: left 250ms cubic-bezier(0.74, 0.06, 0.36, 1.68);
+}
+
+.player-container.shrinked {
+    left: 300px;
+}
+
+
+.playlist {
+    position: absolute;
+    top: 0;
+    left: -500px;
+    bottom: 0;
+    z-index: 1;
+    width: 500px;
+    padding: 200px 20px 200px 120px;
+    background-color: #941242;
+    -webkit-clip-path: polygon(0 0, 75% 0, 100% 100%, 0 100%);
+    list-style: none;
+    transition: left 250ms cubic-bezier(0.74, 0.06, 0.36, 1.68);
+}
+
+.playlist.open {
+    left: -100px;
+}
+
+
+.playlist h3 {
+    font: bold 1.4rem/1 "Open Sans", "Helvetica", "Arial", sans-serif;
+    text-transform: uppercase;
+    color: #500a24;
+    padding: 10px;
+}
+
+
+.playlist li {
+    display: block;
+    font: normal 1.4rem/1 "Open Sans", "Helvetica", "Arial", sans-serif;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    transition: padding-left 180ms cubic-bezier(0.74, 0.06, 0.36, 1.68);
+}
+
+.playlist li:hover,
+.playlist li.current {
+    color: #941242;
+    background-color: white;
+    padding-left: 30px;
+}
+
+
+.playlist-toggle {
+    position: absolute;
+    top: 50%;
+    left: 50px;
+    z-index: 1;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    background-color: #941242;
+    cursor: pointer;
+    transform: rotateZ(-135deg);
+    transition-property: left, transform;
+    transition-duration: 250ms;
+    transition-timing-function: cubic-bezier(0.74, 0.06, 0.36, 1.68);
+}
+
+.playlist-toggle:before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 10px;
+    height: 10px;
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+}
+
+.playlist-toggle.open {
+    left: 380px;
+    transform: rotateZ(45deg);
+}
+
+
 a {
     position: absolute;
     left: 50%;
@@ -36,7 +127,7 @@ a {
     transition-property: width, margin-left; 
     transition-duration: 200ms;
     transition-timing-function: cubic-bezier(0.74, 0.06, 0.36, 1.68);
-    -webkit-animation: grow 250ms 10s cubic-bezier(0.74, 0.06, 0.36, 1.68) forwards;
+    -webkit-animation: grow 250ms 20s cubic-bezier(0.74, 0.06, 0.36, 1.68) forwards;
 }
 
 a:before {
@@ -63,13 +154,13 @@ a:focus {
 .element,
 .container,
 .clone {
-    width: 300px;
-    height: 300px;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+    width: 300px;
+    height: 300px;
     margin: auto;
 }
 
@@ -298,12 +389,30 @@ a:focus {
 
 
 .mask {
-    overflow: hidden;
-    will-change: transform;
     position: absolute;
-    transform: none;
     top: 0;
     left: 0;
+    overflow: hidden;
+    transform: none;
+    will-change: transform;
+}
+
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    background-color: white;
+    opacity: 1;
+    transition: opacity 700ms ease;
+}
+
+.overlay.removed {
+    opacity: 0;
+    pointer-events: none;
 }
 
 
