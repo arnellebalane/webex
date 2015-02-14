@@ -30,9 +30,12 @@ a {
     white-space: nowrap;
     color: #941242;
     padding: 7px 6px;
+    margin-left: -12px;
     overflow: hidden;
-    transform: translateX(-50%) scale(0);
-    transition: width 200ms cubic-bezier(0.74, 0.06, 0.36, 1.68);
+    transform: scale(0);
+    transition-property: width, margin-left; 
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.74, 0.06, 0.36, 1.68);
     -webkit-animation: grow 250ms 10s cubic-bezier(0.74, 0.06, 0.36, 1.68) forwards;
 }
 
@@ -40,19 +43,20 @@ a:before {
     content: "\2764";
     position: absolute;
     top: 0;
-    left: -5px;
+    left: 0;
     width: 30px;
     height: 30px;
     font: bold 2.4rem "Open Sans", "Helvetica", "Arial", sans-serif;
     text-align: center;
+    text-indent: 0;
     line-height: 30px;
     color: #941242;
-    margin-left: -15px;
 }
 
 a:hover,
 a:focus {
     width: 100px;
+    margin-left: -47px;
 }
 
 
@@ -305,10 +309,10 @@ a:focus {
 
 @-webkit-keyframes grow {
     from {
-        transform: translateX(-50%) scale(0);
+        transform: scale(0);
     }
 
     to {
-        transform: translateX(-50%) scale(1);
+        transform: scale(1);
     }
 }
