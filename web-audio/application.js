@@ -49,7 +49,9 @@ var player = {
                     console.log('"' + item.title + '" loaded.');
                     item.element = new Sound(element);
                     player.add({ index: i, title: item.title });
-                    if (!--count) {
+                    count--;
+                    $overlay.find('span').text(playlist.length - count + ' / ' + playlist.length);
+                    if (!count) {
                         player.activate();
                     }
                 }, function(element) {
@@ -59,6 +61,7 @@ var player = {
         }
     },
     activate: function() {
+        $overlay.find('p').html('Player will appear in a while...');
         $overlay.addClass('removed');
         player.index = 0;
         player.play(player.index);
