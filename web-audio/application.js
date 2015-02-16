@@ -13,8 +13,18 @@ var playlist = [
         element: null
     },
     {
+        title: 'Like A Fool',
+        url: './audios/like a fool.mp3',
+        element: null
+    },
+    {
         title: 'Lost Stars',
         url: './audios/lost stars.mp3',
+        element: null
+    },
+    {
+        title: 'Lost Stars (Remix)',
+        url: './audios/lost stars - remix.mp3',
         element: null
     },
     {
@@ -197,13 +207,13 @@ for (var i = 0; i < NUM_OF_SLICES; i++) {
     mask.className = 'mask';
     mask.style.width = widthPerSlice + 'px';
     mask.style.height = height + 'px';
-    mask.style.transform = 'matrix(1, 0, 0, 1, ' + offset + ', 0)';
+    mask.style.transform = 'translateX(' + offset + 'px)';
 
     var clone = document.createElement('div');
     clone.className = 'clone';
     clone.style.width = width + 'px';
     clone.style.height = height + 'px';
-    clone.style.transform = 'translate3d(' + -offset + 'px, 0, 0)';
+    clone.style.transform = 'translateX(' + -offset + 'px)';
 
     mask.appendChild(clone);
     container.appendChild(mask);
@@ -224,7 +234,7 @@ function render() {
         var offset = slice.offset;
         var value = Math.abs(source[n] === undefined ? NO_SIGNAL : source[n]) / NO_SIGNAL;
 
-        element.style.transform = 'matrix(1, 0, 0, ' + value + ', ' + offset + ', 0)';
+        element.style.transform = 'translateX(' + offset + 'px) scaleY(' + value + ')';
     }
 }
 render();
