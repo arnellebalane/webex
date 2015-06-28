@@ -1,0 +1,53 @@
+*,
+*:before,
+*:after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    height: 100%;
+    font-size: 62.5%;
+}
+
+
+body {
+    height: 100%;
+    background-color: #ddd;
+}
+
+
+.kick {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40rem;
+    height: 40rem;
+    background-color: #7E57C2;
+    border: 5px solid #512DA8;
+    border-radius: 50%;
+    margin: -20rem 0 0 -20rem;
+}
+
+.kick.triggered {
+    background-color: #673AB7;
+}
+
+
+.snare {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20rem;
+    height: 20rem;
+    background-color: #26A69A;
+    border: 5px solid #00796B;
+    border-radius: 50%;
+    margin: -30rem 0 0 15rem;
+}
+
+.snare.triggered {
+    background-color: #009688;
+}
